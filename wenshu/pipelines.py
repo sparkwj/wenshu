@@ -58,6 +58,7 @@ class TaskPipeline(object):
 			self.YEARS.clear()
 			self.YEARS.append(crawl_year)
 
+		print('===================', db_path + '/tasks' + ('.' + str(crawl_year) if crawl_year else '') + '.db')
 		self.db_conn = sqlite3.connect(db_path + '/tasks' + ('.' + str(crawl_year) if crawl_year else '') + '.db')
 		self.db_cur = self.db_conn.cursor()
 		with self.db_conn:
