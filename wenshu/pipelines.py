@@ -58,7 +58,6 @@ class TaskPipeline(object):
 			self.YEARS.clear()
 			self.YEARS.append(crawl_year)
 
-		print('===================', db_path + '/tasks' + ('.' + str(crawl_year) if crawl_year else '') + '.db')
 		self.db_conn = sqlite3.connect(db_path + '/tasks' + ('.' + str(crawl_year) if crawl_year else '') + '.db')
 		self.db_cur = self.db_conn.cursor()
 		with self.db_conn:
@@ -386,7 +385,7 @@ class DocPipeline(object):
 	COMMIT_INTERVAL = 60
 
 	def __init__(self, db_path, crawl_year):
-		self.db_conn = sqlite3.connect(db_path + '/docs.' + ('.' + str(crawl_year) if crawl_year else '') + '.db')
+		self.db_conn = sqlite3.connect(db_path + '/docs' + ('.' + str(crawl_year) if crawl_year else '') + '.db')
 		self.db_cur = self.db_conn.cursor()
 		self.db_cur.execute('''CREATE TABLE IF NOT EXISTS "docs" (
 			"auto_id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
