@@ -13,7 +13,7 @@ import os
 
 BOT_NAME = 'wenshu'
 
-LOG_LEVEL = 'DEBUG'
+LOG_LEVEL = 'INFO'
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__)) + '/../'
 DB_PATH = PROJECT_ROOT + 'dbs/'
