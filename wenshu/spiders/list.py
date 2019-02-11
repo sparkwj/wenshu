@@ -67,6 +67,8 @@ class ListSpider(scrapy.Spider):
 
 	DEBUG_TASK_IDS = []
 
+	last_task = {}
+
 	# available_proxies = {}
 	# used_proxies = {}
 	wenshu_servers = ['61.160.224.60']
@@ -112,7 +114,7 @@ class ListSpider(scrapy.Spider):
 	def ListContentRequest(self, response):
 		session = response.request.meta.get('session', None)
 
-		task = self.task_pipeline.next_list_task()
+		task = self.last_task = self.task_pipeline.next_list_task()
 
 		if not task:
 			logger.info('No more task')
@@ -245,8 +247,8 @@ class ListSpider(scrapy.Spider):
 		docid_scraped_count = self.crawler.stats.get_value('docid_scraped_count', 0)
 		docrate = (docid_scraped_count - self.prev_docid_scraped_count) * self.multiplier
 		self.prev_docid_scraped_count = docid_scraped_count
-		msg = 'Crawled %(docs)d docs (at %(docrate)d docs/min)'
-		log_args = {'docs': docid_scraped_count, 'docrate': docrate}
+		msg = 'Last task date: %(year)d-%(month)d-%(day)d, Crawled %(docs)d docs (at %(docrate)d docs/min)'
+		log_args = {'year': self.last_task.get('year', 0), 'month': self.last_task.get('month', 0), 'day': self.last_task.get('day', 0), 'docs': docid_scraped_count, 'docrate': docrate}
 		logger.info(msg, log_args)
 
 	@classmethod
