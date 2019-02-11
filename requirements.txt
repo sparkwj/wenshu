@@ -1,0 +1,15 @@
+numpy
+Werkzeug
+Keras
+scikit-learn
+scipy
+matplotlib
+Flask
+opencv_contrib_python
+netifaces
+Twisted
+Scrapy
+requests
+PyExecJS
+imutils
+tensorflow
