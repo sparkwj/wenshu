@@ -148,7 +148,7 @@ class TaskPipeline(object):
 		if self.task_year:
 			task_year = ' and year = {} '.format(self.task_year)
 
-		sql = 'select {} from tasks indexed by all_index where status = 0 and fails <= {} {} order by cursor asc limit 1'.format(','.join(keys), self.MAX_RETRY_TIMES, task_year)
+		sql = 'select {} from tasks indexed by all_index where status = 0 {} order by cursor asc limit 1'.format(','.join(keys), task_year)
 		self.db_cur.execute(sql)
 		result = self.db_cur.fetchone()
 	
@@ -163,7 +163,7 @@ class TaskPipeline(object):
 
 		else:
 			sub_tasks = []
-			sql = 'select {} from tasks indexed by all_index where status = 1 and fails <= {} and page is NULL and doc_count > {} {} order by cursor asc limit 1'.format(','.join(keys), self.MAX_RETRY_TIMES, self.PAGE_SIZE, task_year)
+			sql = 'select {} from tasks indexed by all_index where status = 1 and page is NULL and doc_count > {} {} order by cursor asc limit 1'.format(','.join(keys), self.PAGE_SIZE, task_year)
 			self.db_cur.execute(sql)
 			result = self.db_cur.fetchone()
 			if result is None:
