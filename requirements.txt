@@ -13,3 +13,4 @@ requests
 PyExecJS
 imutils
 tensorflow
+pyppeteer
