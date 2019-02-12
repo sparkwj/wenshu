@@ -50,12 +50,12 @@ function decryptListContent(data) {
                 doc_id = com.str.Decrypt(doc_id);
                 doc['doc_id'] = doc_id;
                 doc['status'] = 0;
-                // doc['case_name'] = item['案件名称'];
-                // doc['case_no'] = item['案号'];
-                // doc['case_type'] = item['案件类型'];
-                // doc['court_name'] = item['法院名称'];
-                // doc['trial_date'] = item['裁判日期'];
-                // doc['trial_summary'] = item['裁判要旨段原文'];
+                doc['case_name'] = item['案件名称'];
+                doc['case_no'] = item['案号'];
+                doc['case_type'] = item['案件类型'];
+                doc['court_name'] = item['法院名称'];
+                doc['trial_date'] = item['裁判日期'];
+                doc['trial_summary'] = item['裁判要旨段原文'];
                 docs.push(doc);
             }
 

@@ -250,10 +250,6 @@ class TaskPipeline(object):
 		# if task_depth == pages_key_index and task.get('page', 0) >= 1: #skip first page for same conditions
 		# 	self.PAGES.pop(0)
 
-		if task_depth >= len(self.CONDITIONS_VALUES):
-			print(task_depth)
-			print(task_cursor)
-			print(task)
 		if len(self.CONDITIONS_VALUES[task_depth]) == 0:
 			task_depth = pages_key_index
 
