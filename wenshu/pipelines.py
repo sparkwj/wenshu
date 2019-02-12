@@ -421,13 +421,15 @@ class DocPipeline(object):
 			"raw_DocContent" TEXT
 			);''')
 
-		self.db_cur.execute('CREATE INDEX IF NOT EXISTS "main"."doc_id_index" ON "docs" ("doc_id" ASC);')
+		# todo
+		# self.db_cur.execute('CREATE INDEX IF NOT EXISTS "main"."doc_id_index" ON "docs" ("doc_id" ASC);')
 		self.db_cur.execute('PRAGMA journal_mode = OFF')
-		sql = 'update docs set status = -2 where status = -1 and fails > ?'
 
-		self.db_cur.execute(sql, (self.MAX_RETRY_TIMES,))
-		sql = 'update docs set status = 0 where status = -1'
-		self.db_cur.execute(sql)
+		# sql = 'update docs set status = -2 where status = -1 and fails > ?'
+		# self.db_cur.execute(sql, (self.MAX_RETRY_TIMES,))
+
+		# sql = 'update docs set status = 0 where status = -1'
+		# self.db_cur.execute(sql)
 
 		self.db_conn.commit()
 
