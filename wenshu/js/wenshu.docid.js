@@ -55,7 +55,7 @@ function decryptListContent(data) {
                 doc['case_type'] = item['案件类型'];
                 doc['court_name'] = item['法院名称'];
                 doc['trial_date'] = item['裁判日期'];
-                doc['trial_summary'] = item['裁判要旨段原文'];
+                //doc['trial_summary'] = item['裁判要旨段原文'];
                 docs.push(doc);
             }
 
