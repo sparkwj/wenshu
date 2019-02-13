@@ -73,6 +73,7 @@ class TaskPipeline(object):
 				"court_area" TEXT(80),
 				"middle_court" TEXT(80),
 				"basic_court" TEXT(80),
+				"court_level" TEXT(30),
 				"doc_type" TEXT(30),
 				"page" INTEGER
 				);''')
@@ -230,7 +231,7 @@ class TaskPipeline(object):
 		elif task_depth == middle_court_key_index:
 			self.MIDDLE_COURTS.clear()
 			children = self.ALL_COURTS[int(task_cursor[-1])]['children']
-			if len(children) == 0:
+			if len(children) == 0 or task.get('court_level', None) == '高级法院':
 				task_depth = doc_type_key_index
 			else:
 				self.MIDDLE_COURTS.extend(children)
@@ -238,7 +239,7 @@ class TaskPipeline(object):
 		elif task_depth == basic_court_key_index:
 			self.BASIC_COURTS.clear()
 			children = self.ALL_COURTS[int(task_cursor[-2])]['children'][int(task_cursor[-1])]['children']
-			if len(children) == 0:
+			if len(children) == 0 or task.get('court_level', None) == '中级法院':
 				task_depth = doc_type_key_index
 			else:
 				self.BASIC_COURTS.extend(children)
@@ -252,6 +253,18 @@ class TaskPipeline(object):
 
 		if len(self.CONDITIONS_VALUES[task_depth]) == 0:
 			task_depth = pages_key_index
+
+		if task_depth == middle_court_key_index or task_depth == basic_court_key_index: #
+			sub_task = task.copy()
+
+			sub_task['court_level'] = '高级法院' if task_depth == middle_court_key_index else '中级法院'
+
+			sub_task['task_id'] = None
+			sub_task['doc_count'] = 0
+			sub_task['status'] = 0
+			sub_task['fails'] = 0
+
+			sub_tasks.append(sub_task)
 
 		for idx in range(0, len(self.CONDITIONS_VALUES[task_depth])):
 			sub_task = task.copy()

@@ -305,6 +305,10 @@ class ListSpider(scrapy.Spider):
 				if len(value) > 0:
 					d[self.TASK_PARAM_KEY_MAP[key]] = value
 
+		court_level = task.get('court_level', None)
+		if not (court_level is None):
+			d['法院层级'] = court_level
+
 		param = []
 		for key in d.keys():
 			param.append('{}:{}'.format(key, d[key]))

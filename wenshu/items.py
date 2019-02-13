@@ -34,6 +34,7 @@ class TaskItem(scrapy.Item):
 	court_area = scrapy.Field()
 	middle_court = scrapy.Field()
 	basic_court = scrapy.Field()
+	court_level = scrapy.Field()
 	doc_type = scrapy.Field()
 	page = scrapy.Field()
 
