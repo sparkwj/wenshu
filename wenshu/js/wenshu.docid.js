@@ -19,10 +19,9 @@ function decryptDocID(runEval, docid){
 }
 
 function decryptListContent(data) {
-    data = data.replace('\\\",\"案件类型\"', '\",\"案件类型\"');
     var docs = [];
     try {
-        datalist = eval(eval(data));
+        datalist = eval(eval(data).replace('\\\",\"案件类型\"', '\",\"案件类型\"'));
         if (datalist == undefined || datalist == null) {
             docs.push(-1);
             docs.push('datalist is undefined or null');
