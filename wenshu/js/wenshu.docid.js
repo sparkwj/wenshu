@@ -1,4 +1,4 @@
-_empty_result_pattern = /^setTimeout\(\'\$\(/
+_empty_result_pattern = /^setTimeout\(\'\$\(/;
 
 function validateRunEval(runEval) {
     s = unzip(runEval);
@@ -9,10 +9,10 @@ function decryptDocID(runEval, docid){
     s = unzip(runEval);
     ss = s.split(';;');
     eval(ss[0] + ';');
-    ss1 = ss[1].match(/_\[_\]\[_\]\((.*?)\)\(\);/)[1]
-    st = eval(ss1)
-    key = st.match(/com\.str\._KEY=\"(.{32}).*?;/)[0]
-    eval(key)
+    ss1 = ss[1].match(/_\[_\]\[_\]\((.*?)\)\(\);/)[1];
+    st = eval(ss1);
+    key = st.match(/com\.str\._KEY=\"(.{32}).*?;/)[0];
+    eval(key);
     var unzipid = unzip(docid);
     var realid = com.str.Decrypt(unzipid);
     return realid;
@@ -32,8 +32,9 @@ function decryptListContent(data) {
         if (dataCount == 0) {
             docs.push(0);
             return docs;
-        } else
-            docs.push(parseInt(dataCount))
+        } else {
+            docs.push(parseInt(dataCount));
+        }
 
         if (datalist[0].RunEval != undefined) {
             s = unzip(datalist[0].RunEval);

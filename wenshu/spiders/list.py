@@ -153,7 +153,7 @@ class ListSpider(scrapy.Spider):
 		task = response.request.meta.get('task', None)
 
 		try:
-			docs = jshelper.decryptListContent(response.text)
+			docs = jshelper.decryptListContent(response.text.replace('\r', '').replace('\n', '').replace('\t', '').replace('\\\",\"案件类型\"', '\",\"案件类型\"'))
 			doc_count = docs[0] if len(docs) > 1 else 0
 
 			if doc_count > 0 and len(docs) > 1:
