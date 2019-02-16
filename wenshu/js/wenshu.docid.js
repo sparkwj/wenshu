@@ -22,13 +22,17 @@ function decryptListContent(data) {
     var docs = [];
     try {
         datalist = eval(eval(data));
-        if (datalist == undefined || datalist == null || datalist.length <= 1)
+        if (datalist == undefined || datalist == null) {
+            docs.push(-1);
+            docs.push('datalist is undefined or null');
             return docs;
+        }
 
         dataCount = (datalist[0].Count != undefined ? datalist[0].Count : 0);
-        if (dataCount == 0)
+        if (dataCount == 0) {
+            docs.push(0);
             return docs;
-        else
+        } else
             docs.push(parseInt(dataCount))
 
         if (datalist[0].RunEval != undefined) {
@@ -53,13 +57,16 @@ function decryptListContent(data) {
                 doc['case_type'] = item['案件类型'];
                 doc['court_name'] = item['法院名称'];
                 doc['trial_date'] = item['裁判日期'];
-                //doc['trial_summary'] = item['裁判要旨段原文'];
+                doc['trial_summary'] = item['裁判要旨段原文'];
                 docs.push(doc);
             }
 
             return docs;
         }
     } catch (ex) {
-        return -1;
+        docs.length = 0;
+        docs.push(-1);
+        docs.push(ex.message + '\n' + ex.stack);
+        return docs;
     }
 }

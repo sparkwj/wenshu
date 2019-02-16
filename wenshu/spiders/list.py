@@ -156,7 +156,7 @@ class ListSpider(scrapy.Spider):
 			docs = jshelper.decryptListContent(response.text)
 			doc_count = docs[0] if len(docs) > 1 else 0
 
-			if len(docs) > 1:
+			if doc_count > 0 and len(docs) > 1:
 				self.doc_pipeline.save_docs(docs[1:])
 			
 			task['doc_count'] = doc_count

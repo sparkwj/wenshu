@@ -129,8 +129,8 @@ def decryptDocID(runEval, docid):
 
 def decryptListContent(data):
 	result = loop.run_until_complete(page.evaluate("wshelper.decryptListContent", data))
-	if result == -1:
-		raise Exception('Error: decryptListContent error!')
+	if result[0] == -1:
+		raise Exception('Error: ' + result[1])
 	else:
 		return result
 
