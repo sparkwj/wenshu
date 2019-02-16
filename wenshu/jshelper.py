@@ -128,7 +128,11 @@ def decryptDocID(runEval, docid):
 	return loop.run_until_complete(page.evaluate("wshelper.decryptDocID", runEval, docid))
 
 def decryptListContent(data):
-	return loop.run_until_complete(page.evaluate("wshelper.decryptListContent", data))
+	result = loop.run_until_complete(page.evaluate("wshelper.decryptListContent", data))
+	if result == -1:
+		raise Exception('Error: decryptListContent error!')
+	else:
+		return result
 
 def f80sCookie():
 	return f80s

@@ -60,6 +60,6 @@ function decryptListContent(data) {
             return docs;
         }
     } catch (ex) {
-        return docs;
+        return -1;
     }
 }
