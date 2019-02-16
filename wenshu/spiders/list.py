@@ -247,7 +247,7 @@ class ListSpider(scrapy.Spider):
 		docid_scraped_count = self.crawler.stats.get_value('docid_scraped_count', 0)
 		docrate = (docid_scraped_count - self.prev_docid_scraped_count) * self.multiplier
 		self.prev_docid_scraped_count = docid_scraped_count
-		msg = 'Last task date: %(year)d-%(month)d-%(day)d, Crawled %(docs)d docs (at %(docrate)d docs/min)'
+		msg = 'Last task date: %(year)s-%(month)s-%(day)s, Crawled %(docs)d docs (at %(docrate)d docs/min)'
 		log_args = {'year': self.last_task.get('year', 0), 'month': self.last_task.get('month', 0), 'day': self.last_task.get('day', 0), 'docs': docid_scraped_count, 'docrate': docrate}
 		logger.info(msg, log_args)
 
