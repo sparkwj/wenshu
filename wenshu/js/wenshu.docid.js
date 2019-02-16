@@ -19,6 +19,7 @@ function decryptDocID(runEval, docid){
 }
 
 function decryptListContent(data) {
+    data = data.replace('\\\",\"案件类型\"', '\",\"案件类型\"');
     var docs = [];
     try {
         datalist = eval(eval(data));
