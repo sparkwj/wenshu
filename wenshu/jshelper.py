@@ -59,6 +59,8 @@ async def init():
 					window._theFunction = match[1];
 				}
 			};
+			var _native_set_timeout = setTimeout;
+			window['setTimeout'] = function(callback, timeout) {};
 			window['f80tCookie'] = function() {
 				return window[window._theFunction]();
 			}
@@ -75,6 +77,9 @@ async def init():
 		js_all += open(jsfile, encoding='utf8').read()
 
 	wshelper = """(function(){
+		var window = {};
+		var document = {};
+		var location = {};
 
 		//JS_FILES
 
@@ -86,13 +91,11 @@ async def init():
 			getKey: getKey,
 			decryptDocID: decryptDocID,
 			decryptListContent: decryptListContent,
-			f80tCookie: function() {
-				return window[window._theFunction]();
-			},
+			f80tCookie: f80tCookie,
 			f80tCookies: function(num) {
 				var cookies = [];
 				for (var i = 0; i < num; i++) {
-					cookies.push(window[window._theFunction]());
+					cookies.push(f80tCookie());
 				}
 				return cookies;
 			}

@@ -1,5 +1,3 @@
-// var window = window || {}
-
 _empty_result_pattern = /^setTimeout\(\'\$\(/
 
 function validateRunEval(runEval) {
