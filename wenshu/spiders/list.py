@@ -111,10 +111,11 @@ class ListSpider(scrapy.Spider):
 	def parse(self, response):
 		raise Exception('Unkown request!')
 
-	def ListContentRequest(self, response):
+	def ListContentRequest(self, response, task = None):
 		session = response.request.meta.get('session', None)
 
-		task = self.last_task = self.task_pipeline.next_list_task()
+		if task is None:
+			task = self.last_task = self.task_pipeline.next_list_task()
 
 		if not task:
 			logger.info('No more task')
@@ -150,10 +151,11 @@ class ListSpider(scrapy.Spider):
 
 	def list_request_loop(self, response):
 		task = response.request.meta.get('task', None)
-
+		if len(response.text) == 0: #retry
+			logger.debug('response is empty, retry for task ' + str(task.get('task_id')))
+			yield self.ListContentRequest(response, task)
+			return
 		try:
-			if len(response.text) == 0:
-				raise Exception('Error: empty response text')
 			json_string = eval(response.text)
 			json_string = json_string.replace('\r', '').replace('\n', '').replace('\t', '').replace('\\\",\"案件类型\"', '\",\"案件类型\"').replace('0\"},]', '0\"}]')
 
