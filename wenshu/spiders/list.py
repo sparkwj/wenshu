@@ -153,13 +153,43 @@ class ListSpider(scrapy.Spider):
 		task = response.request.meta.get('task', None)
 
 		try:
-			docs = jshelper.decryptListContent(response.text)
-			doc_count = docs[0] if len(docs) > 1 else 0
+			json_string = eval(response.text)
+			json_string = json_string.replace('\r', '').replace('\n', '').replace('\t', '').replace('\\\",\"案件类型\"', '\",\"案件类型\"').replace('0\"},]', '0\"}]')
 
-			if doc_count > 0 and len(docs) > 1:
-				self.doc_pipeline.save_docs(docs[1:])
-			
+			data = json.loads(json_string)
+
+			runEval = data[0].get('RunEval', '')
+
+			doc_count = int(data[0].get('Count', '0'))
 			task['doc_count'] = doc_count
+			
+			logger.debug('Scraped task id = {}, total count: {}'.format(task.get('task_id', 0), doc_count))
+
+			docs = []
+			if len(data) > 1:
+				for item in data[1:]:
+					doc = DocItem()
+					doc_id = item.get('文书ID', '')
+					# doc_id = jshelper.decryptDocID(runEval, doc_id)
+					doc['doc_id'] = doc_id
+					doc['status'] = 0
+					doc['case_name'] = item.get('案件名称', '')
+					doc['case_no'] = item.get('案号', '')
+					doc['case_type'] = item.get('案件类型', '')
+					doc['court_name'] = item.get('法院名称', '')
+					doc['trial_date'] = item.get('裁判日期', '')
+					doc['trial_summary'] = item.get('裁判要旨段原文', '')
+					docs.append(doc)
+
+				doc_ids = jshelper.decryptDocIDs(runEval, list(map(lambda doc: doc['doc_id'], docs)))
+				if not (len(doc_ids) == len(docs)):
+					raise Exception('Error: doc_ids length not equals to docs length')
+				for i in range(0, len(docs)):
+					docs[i]['doc_id'] = doc_ids[i]
+					
+			if len(docs) > 1:
+				self.doc_pipeline.save_docs(docs)
+			
 			task['fails'] = 0
 
 			self.crawler.stats.inc_value('docid_scraped_count', count = len(docs) - 1, spider=self)

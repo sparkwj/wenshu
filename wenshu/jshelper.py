@@ -18,7 +18,7 @@ def patch_pyppeteer():
 
 patch_pyppeteer()
 
-__all__ = ['getKey', 'decryptDocID', 'decryptListContent', 'f80sCookie', 'f80tCookie', 'f80tCookies', 'free']
+__all__ = ['getKey', 'decryptDocID', 'decryptDocIDs', 'decryptListContent', 'f80sCookie', 'f80tCookie', 'f80tCookies', 'free']
 
 logger = logging.getLogger(__name__)
 
@@ -90,6 +90,7 @@ async def init():
 		wshelper = {
 			getKey: getKey,
 			decryptDocID: decryptDocID,
+			decryptDocIDs: decryptDocIDs,
 			decryptListContent: decryptListContent,
 			f80tCookie: f80tCookie,
 			f80tCookies: function(num) {
@@ -126,6 +127,9 @@ def getKey(vjkl5):
 
 def decryptDocID(runEval, docid):
 	return loop.run_until_complete(page.evaluate("wshelper.decryptDocID", runEval, docid))
+
+def decryptDocIDs(runEval, docids):
+	return loop.run_until_complete(page.evaluate("wshelper.decryptDocIDs", runEval, docids))
 
 def decryptListContent(data):
 	result = loop.run_until_complete(page.evaluate("wshelper.decryptListContent", data))

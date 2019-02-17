@@ -18,6 +18,24 @@ function decryptDocID(runEval, docid){
     return realid;
 }
 
+
+function decryptDocIDs(runEval, docids){
+    s = unzip(runEval);
+    ss = s.split(';;');
+    eval(ss[0] + ';');
+    ss1 = ss[1].match(/_\[_\]\[_\]\((.*?)\)\(\);/)[1];
+    st = eval(ss1);
+    key = st.match(/com\.str\._KEY=\"(.{32}).*?;/)[0];
+    eval(key);
+    var realids = []
+    for (var i = 0; i < docids.length; i++) {
+        var unzipid = unzip(docids[i]);
+        var realid = com.str.Decrypt(unzipid);
+        realids.push(realid);
+    }
+    return realids;
+}
+
 function decryptListContent(data) {
     var docs = [];
     try {
