@@ -102,6 +102,7 @@ class ListSpider(scrapy.Spider):
 	def ListRequest(self):
 		f80s = jshelper.f80sCookie()
 		f80t = jshelper.f80tCookie()
+		print('===========', f80s, '========', f80t)
 		return scrapy.Request(url = self.START_URL, headers = {'Referer': 'http://wenshu.court.gov.cn'}, cookies = {'FSSBBIl1UgzbN7N80T': f80t, 'FSSBBIl1UgzbN7N80S': f80s}, callback = self.parse_list, errback = self.other_error, dont_filter = True,  meta = {'dont_delay': True})
 
 	def NumberRequest(self):
