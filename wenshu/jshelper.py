@@ -5,6 +5,11 @@ import scrapy
 import asyncio
 from pyppeteer import launch
 
+logger = logging.getLogger('websockets')
+logger.setLevel(logging.INFO)
+
+logger = logging.getLogger(__name__)
+
 def patch_pyppeteer():
     import pyppeteer.connection
     original_method = pyppeteer.connection.websockets.client.connect
@@ -20,7 +25,6 @@ patch_pyppeteer()
 
 __all__ = ['getKey', 'decryptDocID', 'decryptDocIDs', 'decryptListContent', 'f80sCookie', 'f80tCookie', 'f80tCookies', 'free']
 
-logger = logging.getLogger(__name__)
 
 browser = None
 page = None
@@ -34,7 +38,8 @@ JS_FILES = ['wenshu.vl5x.js', 'wenshu.docid.js', 'Base64.js', 'core-min.js', 'pa
 async def init():
 	global browser, page, f80s
 	browser = await launch(headless=True, logLevel=logging.ERROR)#, handleSIGINT=False, handleSIGTERM=False, handleSIGHUP=False, autoClose=False)
-	page = await browser.newPage()
+	context = await browser.createIncognitoBrowserContext()
+	page = await context.newPage()
 	await page.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
 	await page.setRequestInterception(True)
 	async def intercept(request):
@@ -68,7 +73,8 @@ async def init():
 
 	await page.evaluateOnNewDocument(inject_script)
 	await page.goto('http://' + WENSHU_SERVER)
-	await page.evaluateOnNewDocument(inject_script)
+	await page.goto('http://' + WENSHU_SERVER + '/List/List?sorttype=1&conditions=searchWord+2+AJLX++%E6%A1%88%E4%BB%B6%E7%B1%BB%E5%9E%8B:%E6%B0%91%E4%BA%8B%E6%A1%88%E4%BB%B6')
+	# await page.evaluateOnNewDocument(inject_script)
 	await page.reload()
 
 	js_all = ''

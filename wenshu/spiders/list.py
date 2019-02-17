@@ -57,7 +57,7 @@ class ListSpider(scrapy.Spider):
 	CAPTCHA_SOLVE_URL = 'http://localhost:5000/solve'
 	F80COOKIES_URL = 'http://localhost:3000/f80Cookies'
 
-	CONCURRENT_SESSIONS_PER_IP = 64
+	CONCURRENT_SESSIONS_PER_IP = 1
 
 	WAF_DELAY = 310
 
@@ -245,6 +245,10 @@ class ListSpider(scrapy.Spider):
 			yield self.NumberRequest()
 
 	def other_error(self, failure):
+		try:
+			print(failure.response.text)
+		except:
+			pass
 		task = failure.request.meta.get('task', None)
 		if task:
 			if task.get('status', 0) == -1:
