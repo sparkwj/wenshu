@@ -73,9 +73,8 @@ async def init():
 
 	await page.evaluateOnNewDocument(inject_script)
 	await page.goto('http://' + WENSHU_SERVER)
-	await page.evaluateOnNewDocument(inject_script)
-	await page.goto('http://' + WENSHU_SERVER + '/List/List?sorttype=1&conditions=searchWord+2+AJLX++%E6%A1%88%E4%BB%B6%E7%B1%BB%E5%9E%8B:%E6%B0%91%E4%BA%8B%E6%A1%88%E4%BB%B6')
-	await page.evaluateOnNewDocument(inject_script)
+	# await page.goto('http://' + WENSHU_SERVER + '/List/List?sorttype=1&conditions=searchWord+2+AJLX++%E6%A1%88%E4%BB%B6%E7%B1%BB%E5%9E%8B:%E6%B0%91%E4%BA%8B%E6%A1%88%E4%BB%B6')
+	# await page.evaluateOnNewDocument(inject_script)
 	await page.reload()
 
 	js_all = ''

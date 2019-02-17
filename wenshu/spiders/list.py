@@ -153,6 +153,8 @@ class ListSpider(scrapy.Spider):
 		task = response.request.meta.get('task', None)
 
 		try:
+			if len(response.text) == 0:
+				raise Exception('Error: empty response text')
 			json_string = eval(response.text)
 			json_string = json_string.replace('\r', '').replace('\n', '').replace('\t', '').replace('\\\",\"案件类型\"', '\",\"案件类型\"').replace('0\"},]', '0\"}]')
 
