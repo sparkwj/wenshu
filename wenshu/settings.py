@@ -25,8 +25,10 @@ WAF_COOKIE = ''
 
 #DYNAMIC_SERVERS = True
 # WENSHU_SERVERS = ['182.140.227.166', '61.160.224.60', '61.240.144.201', '221.204.14.198', '112.25.60.196', '119.84.14.194', '222.73.144.179', '122.70.138.199', '120.52.19.18', '58.20.19.13', '36.27.212.88', '123.129.232.222']
-# WENSHU_SERVERS = ['58.20.19.13']
+# WENSHU_SERVERS = ['58.20.19.13'] #www.wuhu.gov.cn
 WENSHU_SERVERS = ['61.160.224.63']
+#WENSHU_SERVERS = ['112.25.60.162']
+# WENSHU_SERVERS = ['218.22.70.66']
 # DAYS = [{'value': year, 'field': 'year', 'children': [{'value': month, 'field': 'month'}]} for year in range(1996, datetime.now().year + 1)]
 
 #In face, this list is not need, just random ok

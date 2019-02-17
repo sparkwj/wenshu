@@ -57,7 +57,7 @@ class ListSpider(scrapy.Spider):
 	CAPTCHA_SOLVE_URL = 'http://localhost:5000/solve'
 	F80COOKIES_URL = 'http://localhost:3000/f80Cookies'
 
-	CONCURRENT_SESSIONS_PER_IP = 1
+	CONCURRENT_SESSIONS_PER_IP = 64
 
 	WAF_DELAY = 310
 
@@ -102,7 +102,6 @@ class ListSpider(scrapy.Spider):
 	def ListRequest(self):
 		f80s = jshelper.f80sCookie()
 		f80t = jshelper.f80tCookie()
-		print('===========', f80s, '========', f80t)
 		return scrapy.Request(url = self.START_URL, headers = {'Referer': 'http://wenshu.court.gov.cn'}, cookies = {'FSSBBIl1UgzbN7N80T': f80t, 'FSSBBIl1UgzbN7N80S': f80s}, callback = self.parse_list, errback = self.other_error, dont_filter = True,  meta = {'dont_delay': True})
 
 	def NumberRequest(self):
@@ -248,10 +247,6 @@ class ListSpider(scrapy.Spider):
 			yield self.NumberRequest()
 
 	def other_error(self, failure):
-		try:
-			print(failure.response.text)
-		except:
-			pass
 		task = failure.request.meta.get('task', None)
 		if task:
 			if task.get('status', 0) == -1:
