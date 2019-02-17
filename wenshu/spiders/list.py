@@ -135,8 +135,7 @@ class ListSpider(scrapy.Spider):
 		f80s = jshelper.f80sCookie()
 		f80t = jshelper.f80tCookie()
 
-		request = scrapy.FormRequest(url = self.LIST_CONTENT_URL, formdata = post_data, headers = {'Referer': 'http://wenshu.court.gov.cn'}, cookies = {'FSSBBIl1UgzbN7N80T': f80t, 'FSSBBIl1UgzbN7N80S': f80s}, callback = self.list_request_loop, errback = self.other_error, meta = {'task': task})
-		request.meta['param'] = post_data['Param']
+		request = scrapy.FormRequest(url = self.LIST_CONTENT_URL, formdata = post_data, headers = {'Referer': 'http://wenshu.court.gov.cn'}, cookies = {'FSSBBIl1UgzbN7N80T': f80t, 'FSSBBIl1UgzbN7N80S': f80s}, callback = self.list_request_loop, errback = self.other_error, meta = {'task': task, 'param': post_data})
 		logger.debug('Processing task: Param:{};Index:{}'.format(post_data['Param'], post_data['Index']))
 
 		if task.get('task_id') == -1:
@@ -199,7 +198,7 @@ class ListSpider(scrapy.Spider):
 		except Exception as e:
 
 			task['fails'] = task.get('fails', 0) + 1
-			logger.error('Parse list response error\n%(error)s\nrepsone code:%(status)d\nrequest task:\n%(task)s\nresponse text:\n%(text)s', {'error': e, 'status': response.status, 'task': task, 'text': response.text}, exc_info = True, extra = {'response': response})
+			logger.error('Parse list response error\n%(error)s\nrepsone code:%(status)d\nrequest task:\n%(task)s\nrequest param:\n%(param)s\nresponse text:\n%(text)s', {'error': e, 'status': response.status, 'task': task, 'text': response.text, 'param': response.request.meta.get('param')}, exc_info = True, extra = {'response': response})
 
 		finally:
 
